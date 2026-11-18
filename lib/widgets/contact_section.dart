@@ -1,29 +1,24 @@
-
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+
 import '../theme/app_theme.dart';
 
 class ContactSection extends StatelessWidget {
   const ContactSection({super.key});
 
   // Replace these with your actual public contact details.
-  static const String email = '';
-  static const String github =
-      'https://github.com/AvelaSelomane';
+  static const String email = 'Avelaselomane3@gmail.com';
+  static const String phone = '067 061 5297';
+  static const String phoneLink = 'tel:+27670615297';
+  static const String github = 'https://github.com/AvelaSelomane';
   static const String linkedin = '';
 
-  Future<void> _openLink(
-    BuildContext context,
-    String url,
-  ) async {
+  Future<void> _openLink(BuildContext context, String url) async {
     final uri = Uri.tryParse(url);
     if (uri == null) return;
 
     try {
-      final opened = await launchUrl(
-        uri,
-        mode: LaunchMode.externalApplication,
-      );
+      final opened = await launchUrl(uri, mode: LaunchMode.externalApplication);
 
       if (!opened) {
         throw Exception('Unable to open link');
@@ -32,9 +27,7 @@ class ContactSection extends StatelessWidget {
       if (!context.mounted) return;
 
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Unable to open this link.'),
-        ),
+        const SnackBar(content: Text('Unable to open this link.')),
       );
     }
   }
@@ -91,6 +84,12 @@ class ContactSection extends StatelessWidget {
                 spacing: 18,
                 runSpacing: 18,
                 children: [
+                  _ContactCard(
+                    icon: Icons.phone_outlined,
+                    title: 'Call Me',
+                    subtitle: phone,
+                    onTap: () => _openLink(context, phoneLink),
+                  ),
                   if (email.isNotEmpty)
                     _ContactCard(
                       icon: Icons.mail_outline,
@@ -98,10 +97,7 @@ class ContactSection extends StatelessWidget {
                       subtitle: email,
                       onTap: () => _openLink(
                         context,
-                        Uri(
-                          scheme: 'mailto',
-                          path: email,
-                        ).toString(),
+                        Uri(scheme: 'mailto', path: email).toString(),
                       ),
                     ),
                   _ContactCard(
@@ -124,12 +120,9 @@ class ContactSection extends StatelessWidget {
               const SizedBox(height: 25),
               const Center(
                 child: Text(
-                  '© 2026 Avela Selomane. Built with Flutter.',
+                  '\u00A9 2026 Avela Selomane. Built with Flutter.',
                   textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: AppTheme.textSecondary,
-                    fontSize: 13,
-                  ),
+                  style: TextStyle(color: AppTheme.textSecondary, fontSize: 13),
                 ),
               ),
             ],
@@ -175,16 +168,12 @@ class _ContactCardState extends State<_ContactCard> {
             color: AppTheme.surface,
             borderRadius: BorderRadius.circular(18),
             border: Border.all(
-              color: _hovered
-                  ? AppTheme.primary
-                  : AppTheme.border,
+              color: _hovered ? AppTheme.primary : AppTheme.border,
             ),
             boxShadow: _hovered
                 ? [
                     BoxShadow(
-                      color: AppTheme.primary.withValues(
-                        alpha: 0.15,
-                      ),
+                      color: AppTheme.primary.withValues(alpha: 0.15),
                       blurRadius: 25,
                     ),
                   ]
@@ -199,16 +188,11 @@ class _ContactCardState extends State<_ContactCard> {
                 padding: const EdgeInsets.all(24),
                 child: Row(
                   children: [
-                    Icon(
-                      widget.icon,
-                      color: AppTheme.secondary,
-                      size: 28,
-                    ),
+                    Icon(widget.icon, color: AppTheme.secondary, size: 28),
                     const SizedBox(width: 15),
                     Expanded(
                       child: Column(
-                        crossAxisAlignment:
-                            CrossAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             widget.title,
